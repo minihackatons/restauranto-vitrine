@@ -19,7 +19,7 @@ export default async function CardapioPage({
   params: Promise<{ restname: string }>;
 }) {
   const { restname } = await params;
-  
+
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
   let items: any[] = [];
   let restaurantData: any = null;
@@ -27,7 +27,7 @@ export default async function CardapioPage({
 
   try {
     const [itemsRes, restRes] = await Promise.all([
-      fetch(`${backendUrl}/items/public`, { cache: 'no-store' }),
+      fetch(`${backendUrl}/items/public?restaurantName=${restname}`, { cache: 'no-store' }),
       fetch(`${backendUrl}/restaurants/links/public/${restname}`, { cache: 'no-store' })
     ]);
 
@@ -50,11 +50,11 @@ export default async function CardapioPage({
         </div>
       )}
 
-      <MenuClient 
-        items={items} 
-        restData={restaurantData} 
-        restname={restname} 
-        backendUrl={backendUrl} 
+      <MenuClient
+        items={items}
+        restData={restaurantData}
+        restname={restname}
+        backendUrl={backendUrl}
       />
 
       <footer className="mt-16 mb-8 text-center opacity-50 flex flex-col items-center">
