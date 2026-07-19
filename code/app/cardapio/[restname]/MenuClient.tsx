@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface Item {
   id: string;
@@ -10,7 +10,8 @@ interface Item {
   category: { name: string };
 }
 
-export default function MenuClient({ items, restData, restname, backendUrl }: { items: Item[], restData: any, restname: string, backendUrl: string }) {
+export default function MenuClient({ items, restData, restname }: { items: Item[], restData: any, restname: string }) {
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
   const [cart, setCart] = useState<Record<string, number>>({});
   
   const updateQty = (id: string, qty: number) => setCart(prev => ({ ...prev, [id]: Math.max(0, qty) }));
@@ -18,12 +19,29 @@ export default function MenuClient({ items, restData, restname, backendUrl }: { 
   const total = items.reduce((sum, item) => sum + (cart[item.id] || 0) * item.price, 0);
   const totalItems = Object.values(cart).reduce((a, b) => a + b, 0);
 
+  useEffect(() => {
+    fetch(`${backendUrl}/restaurants/access`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        restaurantName: restname,
+        clickType: 'view'
+      })
+    }).catch(console.error);
+  }, [restname, backendUrl]);
+
   const grouped = items.reduce((acc, item) => {
     (acc[item.category?.name || 'Outros'] ||= []).push(item);
     return acc;
   }, {} as Record<string, Item[]>);
 
   const sendOrder = () => {
+    fetch(`${backendUrl}/restaurants/access`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ restaurantName: restname, clickType: 'whatsapp' })
+    }).catch(console.error);
+
     let msg = `Olá, gostaria de fazer um pedido:\n\n`;
     items.forEach(i => { if (cart[i.id]) msg += `${cart[i.id]}x ${i.name}\n` });
     msg += `\nPreço total: ${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(total)}\n\nSeria possível?`;

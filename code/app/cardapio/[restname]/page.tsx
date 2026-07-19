@@ -54,7 +54,6 @@ export default async function CardapioPage({
         items={items}
         restData={restaurantData}
         restname={restname}
-        backendUrl={backendUrl}
       />
 
       <footer className="mt-16 mb-8 text-center opacity-50 flex flex-col items-center">
