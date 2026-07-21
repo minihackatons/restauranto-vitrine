@@ -41,7 +41,7 @@ export default async function CardapioPage({
   }
 
   return (
-    <div className={`min-h-screen bg-white text-zinc-900 pb-24 ${inter.className}`}>
+    <div className={`min-h-screen w-full bg-white text-zinc-900 pb-24 ${inter.className}`}>
       {fetchError && (
         <div className="max-w-3xl mx-auto mt-4 px-6">
           <div className="p-4 bg-red-50 text-red-700 rounded-lg text-sm text-center">

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="viewport" content="width=device-width, initial-scale=1"><title>Test</title></head>
+<body style="font-family:sans-serif;text-align:center;padding:40px">
+  <h1>Plain HTML Test</h1>
+  <p id="count" style="font-size:48px;font-weight:bold">0</p>
+  <button onclick="change(-1)" style="width:60px;height:60px;font-size:28px;border:2px solid #ccc;border-radius:12px;background:white">−</button>
+  <button onclick="change(1)" style="width:60px;height:60px;font-size:28px;border:2px solid #ccc;border-radius:12px;background:white">+</button>
+  <p style="color:#888">If this works but /test doesn't, it's a Next.js issue.</p>
+  <script>
+    var n = 0;
+    function change(d) { n += d; document.getElementById('count').textContent = n; }
+  </script>
+</body>
+</html>
